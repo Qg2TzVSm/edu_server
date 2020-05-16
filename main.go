@@ -23,6 +23,7 @@ func main(){
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		ServeWs(hub, w, r)
 	})
+	http.Handle("/", http.FileServer(http.Dir("./public")))
 
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {

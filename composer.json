@@ -1,0 +1,15 @@
+{
+  "name": "vendor_name/edu_chat_server",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "i",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    
+  }
+}

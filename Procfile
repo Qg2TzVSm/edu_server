@@ -1,1 +1,1 @@
-web: edu_server
+web: edu_chat_server

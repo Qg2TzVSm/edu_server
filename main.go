@@ -8,13 +8,14 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 var addr = flag.String("addr", ":8088", "web socket serve address")
 
 func main(){
-
+	port := os.Getenv("PORT")
 	// ws server
 	flag.Parse()
 	hub := NewHub()
@@ -23,7 +24,7 @@ func main(){
 		ServeWs(hub, w, r)
 	})
 
-	err := http.ListenAndServe(*addr, nil)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

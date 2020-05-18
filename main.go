@@ -168,7 +168,7 @@ func (c *Client) readPump() {
 			if check {
 				// 用户在线 给他发消息
 				toUser.send <- encodeMsg(MsgToUser{
-					Type: 0,
+					Type: msg.Type,
 					From: msg.From,
 					Msg:  msg.Msg,
 				})

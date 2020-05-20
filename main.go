@@ -153,6 +153,7 @@ func (c *Client) readPump() {
 			Type:   0,
 			UserType: 0,
 			To: 0,
+			ToUserType: 0,
 			From: 0,
 			Msg: "",
 		}
@@ -163,12 +164,13 @@ func (c *Client) readPump() {
 			c.hub.clients[c] = clientKey
 			c.hub.clientMaps[clientKey] = c
 		}else{
-			toClientKey := fmt.Sprintf("%d:%d", msg.UserType, msg.To)
+			toClientKey := fmt.Sprintf("%d:%d", msg.ToUserType, msg.To)
 			toUser,check := c.hub.clientMaps[toClientKey]
 			if check {
 				// 用户在线 给他发消息
 				toUser.send <- encodeMsg(MsgToUser{
 					Type: msg.Type,
+					ReceiveUserType: msg.ToUserType,
 					From: msg.From,
 					Msg:  msg.Msg,
 				})
@@ -271,12 +273,14 @@ type MsgFromUser struct {
 	Type int `json:"type"` // 消息类型
 	UserType int `json:"user_type"` // 发送者的用户类型
 	To int `json:"id"` // 目标用户id
+	ToUserType int `json:"to_user_type"` // 目标用户类型
 	From int `json:"from"` // 发送者id
 	Msg string `json:"msg"`
 }
 
 type MsgToUser struct {
 	Type int `json:"type"`
+	ReceiveUserType int `json:"user_type"`
 	From int `json:"from"`
 	Msg string `json:"msg"`
 }

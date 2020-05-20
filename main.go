@@ -158,11 +158,14 @@ func (c *Client) readPump() {
 			Msg: "",
 		}
 		decodeMsg(message, msg)
-		clientKey := fmt.Sprintf("%d:%d", msg.UserType, msg.From)
-		_,ok := c.hub.clientMaps[clientKey]
-		if !ok {
-			c.hub.clients[c] = clientKey
-			c.hub.clientMaps[clientKey] = c
+		
+		if msg.Type == 0{ //type 为0 表示注册到server
+			clientKey := fmt.Sprintf("%d:%d", msg.UserType, msg.From)
+			_,ok := c.hub.clientMaps[clientKey]
+			if(!ok){
+				c.hub.clients[c] = clientKey
+				c.hub.clientMaps[clientKey] = c
+			}
 		}else{
 			toClientKey := fmt.Sprintf("%d:%d", msg.ToUserType, msg.To)
 			toUser,check := c.hub.clientMaps[toClientKey]
